@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+html.dark {
+  background-color: #0f172a;
+}
+
+*{
+  font-family: Outfit;
+}
+
+@keyframes wave {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(20deg); }
+  40% { transform: rotate(-15deg); }
+  60% { transform: rotate(10deg); }
+  80% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.animate-wave {
+  display: inline-block;
+  animation: wave 1.8s infinite;
+  transform-origin: 70% 70%;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.25s ease-out;
+}
+
+/* ==== Premium UI Theme ==== */
+
+:root {
+  --glass: rgba(255,255,255,0.12);
+  --glow: 0 0 40px rgba(236,72,153,0.35);
+}
+
+.dark {
+  background: linear-gradient(180deg,#020617,#020617,#0f172a);
+}
+
+/* glassmorphism */
+.glass {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* neon hover */
+.glow-hover:hover {
+  box-shadow: 0 0 40px rgba(236,72,153,0.5);
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* animated underline */
+.link-hover {
+  position: relative;
+}
+.link-hover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg,#ec4899,#8b5cf6);
+  transition: 0.4s;
+}
+.link-hover:hover::after {
+  width: 100%;
+}
+
+/* Contact section premium effects */
+.input-glow:focus {
+  box-shadow: 0 0 0 2px rgba(236,72,153,0.4),
+              0 0 25px rgba(236,72,153,0.35);
+}
+
+.card-glow:hover {
+  box-shadow: 0 0 60px rgba(139,92,246,0.4);
+  transform: translateY(-6px);
+}
+
+
+/* Animated Gradient Text */
+@keyframes gradientMove {
+  0% { background-position: 0% }
+  100% { background-position: 100% }
+}
+
+.animate-gradient {
+  background-size: 200% auto;
+  animation: gradientMove 5s ease-in-out infinite alternate;
+}
+
+/* Social Icon Styling */
+.social-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: white;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 0 rgba(236,72,153,0.4);
+}
+
+/* Hover Glow */
+.social-icon:hover {
+  transform: translateY(-6px) scale(1.12);
+  background: black;
+  box-shadow: 0 0 25px rgba(236,72,153,0.6);
+}
+
+/* Floating Animation */
+.social-icon:nth-child(1) { animation: float 3s ease-in-out infinite; }
+.social-icon:nth-child(2) { animation: float 3s ease-in-out infinite 0.2s; }
+.social-icon:nth-child(3) { animation: float 3s ease-in-out infinite 0.4s; }
+.social-icon:nth-child(4) { animation: float 3s ease-in-out infinite 0.6s; }
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
