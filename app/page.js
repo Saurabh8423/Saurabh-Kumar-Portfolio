@@ -1,6 +1,8 @@
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import About from "./components/About";
+import Skills from "./components/Skills";
+import Experience from "./components/Experience";
 import Services from "./components/Services";
 import MyWork from "./components/MyWork";
 import Contact from "./components/Contact";
@@ -10,11 +12,15 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <Header />
-      <About />
-      <Services />
-      <MyWork />
-      <Contact />
+      <main id="main">
+        <Header />
+        <About />
+        <Skills />
+        <Experience />
+        <Services />
+        <MyWork />
+        <Contact />
+      </main>
       <Footer />
     </>
   );

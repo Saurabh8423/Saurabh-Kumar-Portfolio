@@ -1,60 +1,196 @@
 "use client";
 
-import React from "react";
+import { useEffect, useState } from "react";
+import { FiMenu, FiMoon, FiSun, FiX } from "react-icons/fi";
 import useDarkMode from "@/app/hooks/useDarkMode";
 
-const Navbar = () => {
-  const { isDark, toggleTheme, mounted } = useDarkMode();
+const links = [
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
+  { label: "Experience", href: "#experience" },
+  { label: "Services", href: "#services" },
+  { label: "Work", href: "#work" },
+  { label: "Contact", href: "#contact" },
+];
 
-  // Prevent hydration mismatch
-  if (!mounted) return null;
+const Navbar = () => {
+  const { toggleTheme } = useDarkMode();
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("home");
+
+  // Solidify the bar once the hero scrolls away
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Highlight the section currently in view
+  useEffect(() => {
+    const sections = links
+      .map(({ href }) => document.querySelector(href))
+      .filter(Boolean);
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible?.target?.id) setActive(visible.target.id);
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: [0, 0.25, 0.5, 1] }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  // Lock scroll + close on Escape while the mobile sheet is open
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => e.key === "Escape" && setOpen(false);
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   return (
-    <nav className="w-full fixed top-0 left-0 z-50 flex items-center justify-between px-6 lg:px-12 py-4
-    bg-white/70 dark:bg-[#020617]/80 backdrop-blur-xl
-    border-b border-gray-200 dark:border-gray-700">
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? "border-b border-line bg-page/80 backdrop-blur-xl"
+            : "border-b border-transparent bg-transparent"
+        }`}
+      >
+        <nav
+          aria-label="Main navigation"
+          className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-12"
+        >
+          <a
+            href="#home"
+            className="text-xl font-bold tracking-tight text-ink sm:text-2xl"
+          >
+            Saurabh<span className="text-brand">.</span>
+          </a>
 
-      {/* Logo */}
-      <h1 className="text-2xl font-bold text-black dark:text-white">
-        Saurabh<span className="text-pink-500">.</span>
-      </h1>
+          {/* Desktop links */}
+          <ul className="hidden items-center gap-0.5 rounded-xl border border-line bg-surface p-1 backdrop-blur-xl xl:flex">
+            {links.map(({ label, href }) => {
+              const isActive = active === href.slice(1);
+              return (
+                <li key={href}>
+                  <a
+                    href={href}
+                    aria-current={isActive ? "true" : undefined}
+                    className={`block rounded-lg px-3.5 py-1.5 text-sm font-medium transition-colors duration-300 ${
+                      isActive
+                        ? "bg-brand-soft text-brand"
+                        : "text-ink-soft hover:text-ink"
+                    }`}
+                  >
+                    {label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
 
-      {/* Navigation */}
-      <ul className="hidden md:flex items-center gap-8 bg-white dark:bg-slate-800
-      rounded-full px-8 py-3 shadow-sm border border-gray-200 dark:border-gray-700">
-        {["Home", "About me", "Services", "My work", "Contact me"].map((item) => (
-          <li key={item}>
-            <a
-              href={`#${item.split(" ")[0].toLowerCase()}`}
-              className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition"
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label="Toggle dark mode"
+              className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-surface text-ink-soft transition-colors duration-300 hover:border-brand hover:text-brand"
             >
-              {item}
+              {/* Driven by the .dark class so it is correct on first paint */}
+              <FiSun className="text-lg dark:hidden" />
+              <FiMoon className="hidden text-lg dark:block" />
+            </button>
+
+            <a href="#contact" className="btn btn-primary hidden py-2.5! text-sm sm:inline-flex">
+              Let’s talk
             </a>
-          </li>
-        ))}
-      </ul>
 
-      {/* Right */}
-      <div className="flex items-center gap-4">
-        <button
-          onClick={toggleTheme}
-          aria-label="Toggle theme"
-          className="p-2 rounded-full border border-gray-300 dark:border-gray-600
-          hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-        >
-          {isDark ? "🌙" : "☀️"}
-        </button>
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-label="Open menu"
+              aria-expanded={open}
+              className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-surface text-ink xl:hidden"
+            >
+              <FiMenu className="text-lg" />
+            </button>
+          </div>
+        </nav>
+      </header>
 
-        <a
-          href="#contact"
-          className="px-5 py-2 border border-gray-400 dark:border-gray-600
-          rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition
-          text-gray-700 dark:text-gray-300 font-medium"
+      {/* Mobile sheet */}
+      <div
+        className={`fixed inset-0 z-60 xl:hidden ${
+          open ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+        aria-hidden={!open}
+        inert={!open}
+      >
+        <div
+          onClick={() => setOpen(false)}
+          className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
+            open ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
+        <aside
+          className={`absolute right-0 top-0 flex h-full w-[min(20rem,82vw)] flex-col gap-2 border-l border-line bg-page px-6 py-6 shadow-2xl transition-transform duration-300 ease-out ${
+            open ? "translate-x-0" : "translate-x-full"
+          }`}
         >
-          Connect →
-        </a>
+          <div className="mb-4 flex items-center justify-between">
+            <span className="text-lg font-semibold text-ink">Menu</span>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              aria-label="Close menu"
+              className="grid h-10 w-10 place-items-center rounded-xl border border-line text-ink"
+            >
+              <FiX className="text-lg" />
+            </button>
+          </div>
+
+          {links.map(({ label, href }) => (
+            <a
+              key={href}
+              href={href}
+              onClick={() => setOpen(false)}
+              tabIndex={open ? 0 : -1}
+              className={`rounded-xl px-4 py-3 text-base font-medium transition-colors ${
+                active === href.slice(1)
+                  ? "bg-brand-soft text-brand"
+                  : "text-ink-soft hover:bg-surface hover:text-ink"
+              }`}
+            >
+              {label}
+            </a>
+          ))}
+
+          <a
+            href="#contact"
+            onClick={() => setOpen(false)}
+            tabIndex={open ? 0 : -1}
+            className="btn btn-primary mt-4"
+          >
+            Let’s talk
+          </a>
+        </aside>
       </div>
-    </nav>
+    </>
   );
 };
 

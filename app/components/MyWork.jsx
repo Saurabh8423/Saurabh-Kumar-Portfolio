@@ -1,128 +1,102 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
-import { FiSend } from "react-icons/fi";
+import { useState } from "react";
+import { FiFolder } from "react-icons/fi";
 import ProjectCard from "./ProjectCard";
-import { assets } from "@/assets/assets";
-import { webProjects, mlProjects, designProjects } from "./data/projectsData";
+import useReveal from "@/app/hooks/useReveal";
+import { mlProjects, webProjects } from "./data/projectsData";
 
-const categories = [
-  { id: "web", title: "Web Development", image: assets.web_project },
-  { id: "ml", title: "Machine Learning", image: assets.ml_project },
-  { id: "design", title: "UI / Card Design", image: assets.design_project },
+const tabs = [
+  { id: "web", label: "Web Development", projects: webProjects },
+  { id: "ml", label: "Machine Learning", projects: mlProjects },
 ];
 
 export default function MyWork() {
+  const scope = useReveal();
   const [active, setActive] = useState("web");
 
+  const projects =
+    tabs.find((tab) => tab.id === active)?.projects ?? webProjects;
+
   return (
-    <section id="work" className="px-[12%] py-20">
-      <p className="text-center text-gray-500 mb-2">My Portfolio</p>
-      <h2 className="text-center text-4xl font-Ovo font-semibold text-gray-600 dark:text-gray-400 mb-4">
-        My Latest Work
-      </h2>
-      <p className="text-center text-gray-500 max-w-xl mx-auto mb-16">
-        A curated collection of projects across web development, machine
-        learning, and creative design.
-      </p>
+    <section id="work" ref={scope} className="section">
+      <div
+        data-reveal
+        className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
+      >
+        <div className="max-w-xl">
+          <span className="eyebrow">
+            <FiFolder aria-hidden="true" /> Portfolio
+          </span>
+          <h2 className="heading mt-4">Selected work</h2>
+        </div>
+        <p className="lede max-w-xs text-sm">
+          TooleraAI, AI-powered SaaS and real-time platforms — built from concept to deployment.
+        </p>
+      </div>
 
-      {/* ===== Categories ===== */}
-      <div className="grid md:grid-cols-3 gap-10 mb-20">
-        {categories.map((cat) => (
-          <div
-            key={cat.id}
-            onClick={() => setActive(cat.id)}
-            className="group relative cursor-pointer rounded-3xl overflow-hidden
-transition-all duration-500
-hover:-translate-y-3 hover:scale-[1.02]
-hover:shadow-[0_25px_80px_rgba(236,72,153,0.35)]"
-          >
-            {/* Background Image */}
-            <Image
-              src={cat.image}
-              alt={cat.title}
-              width={600}
-              height={400}
-              className="h-[280px] w-full object-cover 
-              group-hover:scale-105 transition duration-500"
-            />
-
-            {/* Floating White Card */}
-            <div
-              className="absolute bottom-5 left-5 right-5
-bg-white/90 backdrop-blur-xl
-border border-white/40
-rounded-2xl px-5 py-4
-flex items-center justify-between
-transition-all duration-500
-group-hover:-translate-y-3
-group-hover:shadow-[0_10px_50px_rgba(139,92,246,0.35)]"
+      {/* Tabs */}
+      <div
+        data-reveal
+        role="tablist"
+        aria-label="Project categories"
+        className="mt-10 flex flex-col gap-1 rounded-xl border border-line bg-surface p-1 backdrop-blur-xl sm:inline-flex sm:flex-row"
+      >
+        {tabs.map(({ id, label, projects: list }) => {
+          const isActive = active === id;
+          return (
+            <button
+              key={id}
+              type="button"
+              role="tab"
+              id={`tab-${id}`}
+              aria-selected={isActive}
+              aria-controls={`panel-${id}`}
+              onClick={() => setActive(id)}
+              className={`flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition-all duration-300 ${
+                isActive
+                  ? "grad-brand shadow-[0_8px_20px_-10px_var(--btn-glow)]"
+                  : "text-ink-soft hover:bg-page-soft hover:text-ink"
+              }`}
             >
-              <div>
-                <h3 className="text-base font-semibold text-gray-900">
-                  {cat.title}
-                </h3>
-                <p className="text-sm text-gray-500">View projects</p>
-              </div>
-
-              {/* Send Arrow */}
-              <div
-                className="w-10 h-10 rounded-full 
-bg-gradient-to-br from-pink-500 to-purple-600
-text-white text-lg
-flex items-center justify-center
-shadow-[0_0_25px_rgba(236,72,153,0.6)]
-group-hover:scale-110 transition"
+              {label}
+              <span
+                className={`rounded px-1.5 py-0.5 text-[11px] ${
+                  isActive ? "bg-black/12" : "bg-line"
+                }`}
               >
-                <FiSend />
-              </div>
-            </div>
+                {list.length}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Panel */}
+      <div
+        key={active}
+        role="tabpanel"
+        id={`panel-${active}`}
+        aria-labelledby={`tab-${active}`}
+        className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        {projects.map((project, index) => (
+          <div
+            key={project.title}
+            /* Flagship cards span the full row width */
+            className={`h-full ${
+              project.featured ? "sm:col-span-2 lg:col-span-3" : ""
+            }`}
+            style={{
+              animation: `fadeUp .5s cubic-bezier(.2,.8,.2,1) ${
+                index * 0.05
+              }s both`,
+            }}
+          >
+            <ProjectCard project={project} priority={index < 2} />
           </div>
         ))}
       </div>
-
-      {/* ===== Web Projects ===== */}
-      {active === "web" && (
-        <div className="grid md:grid-cols-3 gap-10">
-          {webProjects.map((p, i) => (
-            <ProjectCard key={i} project={p} />
-          ))}
-        </div>
-      )}
-
-      {/* ===== ML Projects ===== */}
-      {active === "ml" && (
-        <div className="grid md:grid-cols-3 gap-10">
-          {mlProjects.map((p, i) => (
-            <ProjectCard key={i} project={p} />
-          ))}
-        </div>
-      )}
-
-      {/* ===== Design Projects ===== */}
-      {active === "design" && (
-        <div className="grid md:grid-cols-3 gap-10">
-          {designProjects.map((img, i) => (
-            <div
-              key={i}
-              className="group relative rounded-3xl overflow-hidden
-transition-all duration-500
-hover:-translate-y-3 hover:scale-[1.02]
-hover:shadow-[0_25px_80px_rgba(139,92,246,0.4)]"
-            >
-              <Image
-                src={img}
-                alt="Design Card"
-                width={600}
-                height={400}
-                className="w-full h-[280px] object-cover 
-                group-hover:scale-110 transition duration-500"
-              />
-            </div>
-          ))}
-        </div>
-      )}
     </section>
   );
 }

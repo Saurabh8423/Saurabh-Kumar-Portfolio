@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "start": "next start"
+    "start": "next start",
+    "verify:email": "node scripts/verify-email.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
