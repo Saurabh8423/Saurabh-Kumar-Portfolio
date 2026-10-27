@@ -1,6 +1,6 @@
 export const experience = [
   {
-    role: "Founder & Full-Stack Developer",
+    role: "Founder & SEO",
     company: "TooleraAI",
     type: "Self-Employed",
     period: "2026 — Present",

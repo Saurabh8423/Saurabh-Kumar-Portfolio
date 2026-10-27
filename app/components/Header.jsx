@@ -8,11 +8,12 @@ import { gsap } from "@/app/lib/gsap";
 import { assets } from "@/assets/assets";
 import useTilt from "@/app/hooks/useTilt";
 import Counter from "./Counter";
+import RotatingRole from "./RotatingRole";
 
 const stats = [
-  { value: "1.5+", label: "Years shipping" },
+  { value: "2", label: "Years in companies" },
+  { value: "5+", label: "Years developing" },
   { value: "3", label: "Flagship products" },
-  { value: "400+", label: "DSA problems solved" },
 ];
 
 const Header = () => {
@@ -67,8 +68,9 @@ const Header = () => {
     <section
       id="home"
       ref={scope}
-      className="hero-section mx-auto grid w-full max-w-7xl items-center gap-12 px-5 pb-20 pt-28 sm:px-8 sm:pt-32 lg:min-h-svh lg:grid-cols-[1.15fr_1fr] lg:gap-16 lg:px-12 lg:pb-24 lg:pt-28"
+      className="hero-section mx-auto grid w-full max-w-7xl items-center gap-8 px-5 pb-12 pt-24 sm:px-8 sm:pt-28 lg:grid-cols-[1.15fr_1fr] lg:gap-12 lg:px-12 lg:pb-16 lg:pt-28"
     >
+      <div className="hero-contours" aria-hidden="true" />
       {/* ---------- Copy ---------- */}
       <div className="order-2 text-center lg:order-1 lg:text-left">
         <div className="hero-text eyebrow">
@@ -76,34 +78,17 @@ const Header = () => {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-70" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand" />
           </span>
-          Full-stack engineering ? AI ? Product
+          Full Stack Developer &amp; Product Builder
         </div>
 
         <h1 className="hero-text hero-title mt-6 font-serif text-4xl font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.6rem]">
-          Full Stack
-          <span className="text-ink-faint"> &amp; </span>
-          <span className="relative text-brand">
-            AI Developer
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 300 12"
-              preserveAspectRatio="none"
-              className="absolute -bottom-1 left-0 h-2.5 w-full text-brand/35"
-            >
-              <path
-                d="M2 8c60-6 120-6 180-3s80 4 116 1"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
-                strokeLinecap="round"
-              />
-            </svg>
-          </span>
+          <span className="hero-intro">Hi, I’m Saurabh Kumar</span>
+          <RotatingRole />
         </h1>
 
-        <p className="hero-text lede mx-auto mt-7 max-w-lg text-base sm:text-lg lg:mx-0">
+        <p className="hero-text lede mx-auto mt-4 max-w-lg text-base sm:text-lg lg:mx-0">
           I’m <span className="font-semibold text-ink">Saurabh Kumar</span>. I
-          build useful digital products, from TooleraAI to AI-powered SaaS, and take them to{" "}
+          build full-stack web applications, AI automations, conversational chatbots and SaaS products. From React and Next.js to n8n and Playwright, I take ideas to{" "}
           <span className="hl">production</span>.
         </p>
 
@@ -154,7 +139,7 @@ const Header = () => {
         </div>
 
         {/* Stats */}
-        <dl className="mt-12 grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-line bg-line">
+        <dl className="hero-stats mt-6 grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-line bg-line">
           {stats.map(({ value, label }) => (
             <div
               key={label}
@@ -176,23 +161,36 @@ const Header = () => {
       </div>
 
       {/* ---------- Portrait ---------- */}
-      <div className="scene order-1 mx-auto w-full max-w-[15rem] sm:max-w-[19rem] lg:order-2 lg:max-w-sm">
+      <div className="hero-portrait-scene scene order-1 mx-auto w-full max-w-[15rem] sm:max-w-[19rem] lg:order-2 lg:max-w-sm">
         <div ref={portraitRef} className="hero-portrait tilt portrait">
           <span className="portrait-glow" aria-hidden="true" />
           <span className="portrait-orbit" aria-hidden="true" />
           <span className="portrait-ring" aria-hidden="true" />
 
-          <div className="portrait-photo">
+          <div
+            className="portrait-photo"
+            onMouseEnter={(event) => {
+              if (window.matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)").matches) return;
+              gsap.fromTo(event.currentTarget, { rotationY: 0 }, {
+                rotationY: 360,
+                duration: 1.4,
+                ease: "power2.inOut",
+                overwrite: true,
+              });
+            }}
+          >
             <Image
               src={assets.profile_img}
               alt="Saurabh Kumar"
-              width={316}
-              height={316}
+              width={1254}
+              height={1254}
+              quality={90}
               priority
               sizes="(max-width: 640px) 15rem, (max-width: 1024px) 19rem, 24rem"
               className="h-full w-full object-cover"
             />
           </div>
+          <span className="portrait-label portrait-label-top"><span /> Building TooleraAI</span>
         </div>
       </div>
     </section>

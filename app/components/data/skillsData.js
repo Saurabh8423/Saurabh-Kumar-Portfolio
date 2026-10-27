@@ -108,6 +108,10 @@ const TECH = {
   "LLM Integration": { Icon: TbBrain },
   "Prompt Engineering": { Icon: TbMessageChatbot },
   "AI Automation": { Icon: TbRobot },
+  n8n: { Icon: TbInfinity, color: "#b83250" },
+  Playwright: { Icon: TbServer2, color: "#237d36" },
+  "Browser Automation": { Icon: TbRobot },
+  "AI Chatbots": { Icon: TbMessageChatbot },
   "Vedic AI Systems": { Icon: TbSparkles },
   OCR: { Icon: TbTextScan2 },
   "Scikit-learn": { Icon: SiScikitlearn, color: "#f7931e" },
@@ -142,6 +146,11 @@ function resolve(name, { useShort = false } = {}) {
 
 /** The headline stack, shown as a single scrolling ribbon. */
 export const coreStack = [
+  "n8n",
+  "Playwright",
+  "AI Automation",
+  "AI Chatbots",
+  "LLM Integration",
   "JavaScript",
   "TypeScript",
   "React.js",
@@ -204,12 +213,16 @@ export const skillGroups = [
   },
   {
     index: "03",
-    title: "AI / ML",
+    title: "AI, Chatbots & Automation",
     items: [
       "OpenAI APIs",
+      "n8n",
+      "Playwright",
+      "Browser Automation",
       "LLM Integration",
       "Prompt Engineering",
       "AI Automation",
+      "AI Chatbots",
       "Vedic AI Systems",
       "OCR",
       "Scikit-learn",

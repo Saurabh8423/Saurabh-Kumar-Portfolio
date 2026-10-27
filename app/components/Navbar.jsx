@@ -15,7 +15,7 @@ const links = [
 ];
 
 const Navbar = () => {
-  const { toggleTheme } = useDarkMode();
+  const { isDark, toggleTheme } = useDarkMode();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("home");
@@ -64,7 +64,7 @@ const Navbar = () => {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+        className={`site-header fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
           scrolled
             ? "border-b border-line bg-page/80 backdrop-blur-xl"
             : "border-b border-transparent bg-transparent"
@@ -107,12 +107,12 @@ const Navbar = () => {
             <button
               type="button"
               onClick={toggleTheme}
-              aria-label="Toggle dark mode"
+              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
               className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-surface text-ink-soft transition-colors duration-300 hover:border-brand hover:text-brand"
             >
               {/* Driven by the .dark class so it is correct on first paint */}
-              <FiSun className="text-lg dark:hidden" />
-              <FiMoon className="hidden text-lg dark:block" />
+              <FiSun className="hidden text-lg dark:block" />
+              <FiMoon className="text-lg dark:hidden" />
             </button>
 
             <a href="#contact" className="btn btn-primary hidden py-2.5! text-sm sm:inline-flex">

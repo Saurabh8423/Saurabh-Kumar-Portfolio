@@ -56,7 +56,7 @@ app/
     TiltCard.jsx           3D tilt wrapper around .card
     data/                  projects, experience and skills content
   hooks/
-    useDarkMode.js         .dark class toggle, persisted to localStorage
+    useDarkMode.js         .dark class toggle, dark by default
     useReveal.js           GSAP ScrollTrigger reveal for [data-reveal] children
     useTilt.js             cursor-tracking 3D tilt
   globals.css              design tokens, dark variant, component classes
@@ -67,8 +67,7 @@ public/                    static files served at the root (/projects, /design)
 
 ## Theming
 
-Midnight and violet theme with a warm gold accent, plus a light mode. Theme
-selection persists in localStorage. Design tokens live in `app/globals.css`.
+Midnight and violet theme with a warm gold accent, plus a light mode. Every page load starts in dark mode; light mode is available through the toggle. Design tokens live in `app/globals.css`.
 Cards use subtle borders, hover tilt and scroll reveals. The hero has restrained
 radial lighting; project cards display screenshots from `public/projects`.
 Animations respect reduced-motion preferences and tilt is disabled on touch.

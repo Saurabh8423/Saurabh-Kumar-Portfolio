@@ -1,4 +1,4 @@
-import user_image from './user_img.png';
+import user_image from './user2.png';
 import code_icon from './code-icon.png';
 import code_icon_dark from './code-icon-dark.png';
 import edu_icon from './edu-icon.png';
@@ -15,7 +15,7 @@ import logo from './logo.png';
 import logo_dark from './logo_dark.png';
 import mail_icon from './mail_icon.png';
 import mail_icon_dark from './mail_icon_dark.png';
-import profile_img from './profile-img.png';
+import profile_img from './Profile-Portrait.png';
 import download_icon from './download-icon.png';
 import hand_icon from './hand_icon.png';
 import close_black from './close-black.png';

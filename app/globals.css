@@ -5,7 +5,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ============================================================
-   Palette — deep teal + copper on flat navy.
+   Base palette, refined by the portfolio theme below.
    The canvas is one solid colour in each theme: no grid, no radial
    glows, no grain. Depth is carried by surfaces, borders and the
    button ramp — never by the page background.
@@ -818,23 +818,4 @@
   .marquee {
     overflow-x: auto;
   }
-}
-
-/* Editorial typography and a restrained, animated hero treatment. */
-.heading, .hero-title { font-family: var(--font-sans); letter-spacing: -0.045em; font-weight: 600; }
-.hero-section { position: relative; isolation: isolate; }
-.hero-section::before { content: ""; position: absolute; inset: 12% 0 4%; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 80% 40%, var(--brand-soft), transparent 65%); }
-.hero-title { font-size: clamp(2.6rem, 5.1vw, 4.8rem); line-height: 1.06; }
-.section + .section { border-top: 1px solid var(--line); }
-#about, #experience { background: linear-gradient(140deg, var(--surface), transparent 70%); border-radius: 2rem; }
-.project-poster { background: linear-gradient(145deg, var(--page-soft), var(--brand-soft)); }
-.project-poster-mark { display: grid; place-items: center; margin: 0 auto 1.4rem; width: 4rem; height: 4rem; border: 1px solid var(--line-hover); border-radius: 1.1rem; color: var(--brand); background: var(--surface); font-size: 1.6rem; }
-.project-poster-domain { margin-top: 1.5rem; font-size: .7rem; letter-spacing: .12em; color: var(--ink-soft); }
-@media (prefers-reduced-motion: no-preference) {
-  .project-poster-mark { animation: gentleFloat 6s ease-in-out infinite; }
-}
-@keyframes gentleFloat { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-7px) rotate(4deg); } }
-@media (max-width: 639px) {
-  .hero-title { font-size: clamp(2.35rem, 10vw, 3.6rem); }
-  #about, #experience { border-radius: 1rem; }
 }

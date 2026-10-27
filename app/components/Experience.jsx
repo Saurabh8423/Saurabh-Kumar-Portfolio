@@ -3,17 +3,15 @@
 import {
   FiAward,
   FiBriefcase,
-  FiCheckCircle,
   FiFileText,
 } from "react-icons/fi";
 import { HiAcademicCap } from "react-icons/hi2";
 import useReveal from "@/app/hooks/useReveal";
-import TiltCard from "./TiltCard";
-import Counter from "./Counter";
+import ExperienceDeck from "./ExperienceDeck";
+
 import {
   certificates,
   education,
-  experience,
   recognition,
 } from "./data/experienceData";
 
@@ -26,103 +24,13 @@ export default function Experience() {
         <span className="eyebrow">
           <FiBriefcase aria-hidden="true" /> Career
         </span>
-        <h2 className="heading mt-4">Experience</h2>
+        <h2 className="heading mt-4">A track record of shipping.</h2>
         <p className="lede mt-4">
           Building products as a founder and engineer, from first idea to <span className="hl">production</span>.
         </p>
       </div>
 
-      {/* Timeline */}
-      <ol className="relative mt-12 sm:mt-16">
-        <span
-          aria-hidden="true"
-          className="absolute left-1.75 top-3 bottom-3 w-px bg-linear-to-b from-brand via-line-strong to-transparent sm:left-2"
-        />
-
-        {experience.map((job, index) => (
-          <li
-            key={`${job.company}-${job.period}`}
-            data-reveal
-            className={`relative pl-8 sm:pl-12 ${index > 0 ? "mt-6" : ""}`}
-          >
-            {/* Node */}
-            <span
-              aria-hidden="true"
-              className="absolute left-0 top-6 grid h-4 w-4 place-items-center rounded-full border border-line bg-page"
-            >
-              <span
-                className={`h-1.5 w-1.5 rounded-full ${
-                  job.current ? "animate-pulse bg-brand" : "bg-ink-faint"
-                }`}
-              />
-            </span>
-
-            <TiltCard as="article" max={4} lift={8} className="p-5 sm:p-7">
-              <header className="depth-1 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div className="min-w-0">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-brand">
-                    {job.company}
-                  </p>
-                  <h3 className="mt-2 font-serif text-xl font-semibold leading-snug text-ink sm:text-2xl">
-                    {job.role}
-                  </h3>
-                </div>
-
-                <div className="flex shrink-0 flex-wrap gap-2">
-                  <span className={job.current ? "chip chip-brand" : "chip"}>
-                    {job.period}
-                  </span>
-                  <span className="chip">{job.type}</span>
-                </div>
-              </header>
-
-              <p className="mt-4 border-l-2 border-brand pl-4 text-sm leading-relaxed text-ink-soft">
-                {job.summary}
-              </p>
-
-              {/* Impact metrics — the part a recruiter should see first */}
-              {job.metrics.length > 0 && <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line">
-                {job.metrics.map(({ value, label }) => (
-                  <div key={label} className="bg-page px-4 py-3.5">
-                    <dt className="sr-only">{label}</dt>
-                    <dd>
-                      <Counter
-                        value={value}
-                        className="metric block text-2xl text-brand"
-                      />
-                      <span className="mt-1 block text-[11px] text-ink-faint">
-                        {label}
-                      </span>
-                    </dd>
-                  </div>
-                ))}
-              </dl>}
-
-              <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
-                {job.points.map((point) => (
-                  <li key={point} className="flex gap-2.5">
-                    <FiCheckCircle
-                      aria-hidden="true"
-                      className="mt-0.5 shrink-0 text-brand"
-                    />
-                    <span className="text-[13px] leading-relaxed text-ink-soft">
-                      {point}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
-              <ul className="mt-6 flex flex-wrap gap-1.5">
-                {job.stack.map((tech) => (
-                  <li key={tech} className="chip">
-                    {tech}
-                  </li>
-                ))}
-              </ul>
-            </TiltCard>
-          </li>
-        ))}
-      </ol>
+      <ExperienceDeck />
 
       {/* Education + recognition — deliberately different card treatments */}
       <div className="mt-8 grid gap-6 lg:grid-cols-2">

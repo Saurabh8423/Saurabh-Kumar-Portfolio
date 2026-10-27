@@ -16,8 +16,8 @@ const pillars = [
   {
     icon: FiCpu,
     kicker: "02",
-    title: "AI Integration",
-    description: "LLM APIs, prompt engineering and automation in real products.",
+    title: "Chatbots & Automation",
+    description: "n8n and Playwright workflows, WhatsApp chatbots and PDF-based question answering.",
   },
   {
     icon: FiServer,
@@ -28,7 +28,7 @@ const pillars = [
 ];
 
 const facts = [
-  { label: "Role", value: "Founder & Full-Stack Developer" },
+  { label: "Role", value: "Founder & SEO" },
   { label: "Building", value: "TooleraAI" },
   { label: "Degree", value: "B.Tech CS & IT — 7.50 DGPA" },
   { label: "Based in", value: "Saket, New Delhi, India" },
@@ -43,7 +43,7 @@ const About = () => {
         <span className="eyebrow">
           <FiUser aria-hidden="true" /> Introduction
         </span>
-        <h2 className="heading mt-4">An engineer with a product mindset.</h2>
+        <h2 className="heading mt-4">Full-stack foundations. Products that deliver.</h2>
       </div>
 
       <div className="mt-12 grid gap-10 lg:mt-14 lg:grid-cols-[minmax(0,20rem)_1fr] lg:gap-16">
@@ -54,6 +54,7 @@ const About = () => {
               <Image
                 src={assets.user_image}
                 alt="Saurabh Kumar"
+                quality={90}
                 className="h-auto w-full object-cover"
                 sizes="(max-width: 1024px) 100vw, 20rem"
               />
@@ -101,7 +102,7 @@ const About = () => {
               platforms, built end to end. With TooleraAI, I’m bringing that same approach to fast, accessible online utilities for everyday work.
             </p>
             <p className="lede mt-4">
-              My work spans React and Next.js interfaces, secure backend APIs, real-time communication and LLM integrations. I take products through deployment, then improve their performance, discoverability and user experience. I hold a B.Tech in Computer Science &amp; Information Technology from MJP Rohilkhand University.
+              I bring 2 years of professional company experience and over 5 years of relevant development experience, building React and Next.js interfaces, backend APIs and complete web applications. I also create n8n and Playwright automations for content, SEO and outreach, develop WhatsApp and PDF chatbots, and ship SaaS products from architecture to deployment. I hold a B.Tech in Computer Science &amp; Information Technology from MJP Rohilkhand University.
             </p>
           </div>
 

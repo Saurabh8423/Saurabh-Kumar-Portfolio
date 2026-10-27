@@ -4,10 +4,13 @@ import { useState } from "react";
 import { FiFolder } from "react-icons/fi";
 import ProjectCard from "./ProjectCard";
 import useReveal from "@/app/hooks/useReveal";
-import { mlProjects, webProjects } from "./data/projectsData";
+import { automationProjects, mlProjects, webProjects } from "./data/projectsData";
 
 const tabs = [
   { id: "web", label: "Web Development", projects: webProjects },
+  { id: "ai", label: "AI Automation", projects: automationProjects.filter((project) => !project.chatbot) },
+  { id: "chatbots", label: "Chatbots", projects: automationProjects.filter((project) => project.chatbot) },
+  { id: "saas", label: "SaaS Products", projects: webProjects.filter((project) => project.featured) },
   { id: "ml", label: "Machine Learning", projects: mlProjects },
 ];
 
@@ -28,10 +31,10 @@ export default function MyWork() {
           <span className="eyebrow">
             <FiFolder aria-hidden="true" /> Portfolio
           </span>
-          <h2 className="heading mt-4">Selected work</h2>
+          <h2 className="heading mt-4">Web apps. Automation. AI. SaaS.</h2>
         </div>
         <p className="lede max-w-xs text-sm">
-          TooleraAI, AI-powered SaaS and real-time platforms — built from concept to deployment.
+          Full-stack web applications, n8n and Playwright automations, conversational chatbots and SaaS products.
         </p>
       </div>
 
@@ -40,7 +43,7 @@ export default function MyWork() {
         data-reveal
         role="tablist"
         aria-label="Project categories"
-        className="mt-10 flex flex-col gap-1 rounded-xl border border-line bg-surface p-1 backdrop-blur-xl sm:inline-flex sm:flex-row"
+        className="mt-10 flex flex-col flex-wrap gap-1 rounded-xl border border-line bg-surface p-1 backdrop-blur-xl sm:inline-flex sm:flex-row"
       >
         {tabs.map(({ id, label, projects: list }) => {
           const isActive = active === id;

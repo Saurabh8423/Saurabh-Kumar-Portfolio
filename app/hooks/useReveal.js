@@ -35,19 +35,19 @@ export default function useReveal({
     }
 
     const ctx = gsap.context(() => {
-      gsap.from(targets, {
+      targets.forEach((target, index) => gsap.from(target, {
         y,
         opacity: 0,
         duration,
-        stagger,
+        delay: Math.min(index % 3 * stagger, 0.2),
         ease: "power3.out",
         clearProps: "transform,opacity",
         scrollTrigger: {
-          trigger: root,
+          trigger: target,
           start,
           once: true,
         },
-      });
+      }));
     }, root);
 
     return () => ctx.revert();

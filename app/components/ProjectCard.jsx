@@ -62,9 +62,20 @@ function Poster({ project, tall = false }) {
             {project.subtitle}
           </span>
         )}
-        <p className="project-poster-domain">{project.liveLinks?.[0]?.url?.replace(/^https?:\/\//, "").replace(/\/$/, "")}</p>
+        <p className="project-poster-domain">{project.liveLinks?.[0]?.url?.replace(/^https?:\/\//, "").replace(/\/$/, "") || "AUTOMATION & CONVERSATIONAL AI"}</p>
       </div>
     </div>
+  );
+}
+
+function Workflow({ steps }) {
+  if (!steps?.length) return null;
+  return (
+    <ol className="workflow-steps" aria-label="Project workflow">
+      {steps.map((step, index) => (
+        <li key={step}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{step}</li>
+      ))}
+    </ol>
   );
 }
 
@@ -112,6 +123,9 @@ function StackRow({ project }) {
 }
 
 function Links({ project, size = "sm" }) {
+  if (!project.liveLinks?.length && !project.github) {
+    return <a href="#contact" className="inline-flex items-center gap-1.5 text-sm font-medium text-brand">Discuss this project <FiArrowUpRight aria-hidden="true" /></a>;
+  }
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
       {project.liveLinks?.map(({ label, url }) => (
@@ -173,12 +187,12 @@ export default function ProjectCard({ project, priority = false }) {
         max={3.5}
         lift={10}
         clip
-        className="group grid sm:grid-cols-2"
+        className="project-featured group grid sm:grid-cols-2"
       >
         <div className="relative min-h-56 overflow-hidden border-b border-line sm:min-h-full sm:border-b-0 sm:border-r">
           {cover}
           <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-lg border border-line bg-page/90 px-2.5 py-1 text-[11px] font-semibold text-brand backdrop-blur-sm">
-            <FiZap aria-hidden="true" /> Flagship
+            <FiZap aria-hidden="true" /> {project.workflow ? "Featured workflow" : "Flagship"}
           </span>
         </div>
 
@@ -197,6 +211,7 @@ export default function ProjectCard({ project, priority = false }) {
           </p>
 
           <div className="mt-6">
+            <Workflow steps={project.workflow} />
             <StackRow project={project} />
           </div>
 
@@ -234,6 +249,7 @@ export default function ProjectCard({ project, priority = false }) {
         </p>
 
         <div className="mt-5">
+          <Workflow steps={project.workflow} />
           <StackRow project={project} />
         </div>
 

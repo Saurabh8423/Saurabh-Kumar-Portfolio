@@ -5,9 +5,75 @@
  * "isn't a valid image" on every render.
  */
 
+export const automationProjects = [
+  {
+    title: "Social Media Publishing Automation",
+    subtitle: "AI content creation → multi-platform publishing",
+    image: null,
+    featured: true,
+    description: "Built automated workflows to create videos and images, then publish content to YouTube, Facebook and Instagram. Connected content generation and social publishing into an end-to-end automation pipeline.",
+    skills: [],
+    extraSkills: ["n8n", "Playwright", "AI Content Generation", "Social Publishing"],
+    workflow: ["Create content", "Generate video & images", "Publish across channels"],
+    liveLinks: [],
+  },
+  {
+    title: "AI Blog Publishing Automation",
+    subtitle: "From generated visuals to published articles",
+    image: null,
+    description: "Created a workflow that generates blog images, writes articles and publishes posts automatically, connecting the steps of content production in one pipeline.",
+    skills: [],
+    extraSkills: ["n8n", "AI Writing", "Image Generation", "Blog Publishing"],
+    workflow: ["Generate images", "Write article", "Publish blog"],
+    liveLinks: [],
+  },
+  {
+    title: "SEO Workflow Automation",
+    subtitle: "Automating recurring search optimization tasks",
+    image: null,
+    description: "Built automation for recurring SEO tasks as part of a broader website and content workflow. Used n8n and browser automation to connect steps that would otherwise require manual work.",
+    skills: [],
+    extraSkills: ["n8n", "Playwright", "SEO Automation"],
+    liveLinks: [],
+  },
+  {
+    title: "Personalized Email Outreach Automation",
+    subtitle: "Website research → tailored email → delivery",
+    image: null,
+    description: "Automated prospect website research and detail collection, generated email drafts tailored to each business, and connected the workflow to bulk email delivery.",
+    skills: [],
+    extraSkills: ["n8n", "Playwright", "Website Research", "Email Automation"],
+    workflow: ["Research website", "Draft personalized email", "Send email"],
+    liveLinks: [],
+  },
+  {
+    title: "WhatsApp AI Chatbot",
+    chatbot: true,
+    subtitle: "Conversational automation on WhatsApp",
+    image: null,
+    description: "Built a WhatsApp chatbot that responds to incoming messages through an automated conversational workflow, bringing chatbot interactions into a familiar messaging channel.",
+    skills: [],
+    extraSkills: ["WhatsApp", "AI Chatbot", "Conversation Automation"],
+    workflow: ["Receive message", "Process conversation", "Reply on WhatsApp"],
+    liveLinks: [],
+  },
+  {
+    title: "Chat with Your PDF",
+    chatbot: true,
+    subtitle: "Document-based questions and answers",
+    image: null,
+    description: "Built a chatbot that lets users upload a PDF and ask questions about its topics and content. The conversation uses the uploaded document as its reference for responses.",
+    skills: [],
+    extraSkills: ["PDF Upload", "Document Q&A", "AI Chatbot"],
+    workflow: ["Upload PDF", "Ask a question", "Answer from document"],
+    liveLinks: [],
+  },
+];
+
 export const webProjects = [
   {
     title: "TooleraAI",
+    category: "ai",
     subtitle: "Free online tools for everyday work",
     image: "/projects/toolera.jpeg",
     featured: true,
@@ -19,6 +85,7 @@ export const webProjects = [
   },
   {
     title: "YogiAI.live",
+    category: "ai",
     subtitle: "AI-Powered Vedic Astrology SaaS",
     image: "/projects/yogi.jpeg",
     featured: true,

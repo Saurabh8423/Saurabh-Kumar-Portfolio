@@ -3,14 +3,32 @@
 import { useEffect, useState } from "react";
 import { FiArrowRight, FiGrid, FiSearch, FiSmartphone, FiX } from "react-icons/fi";
 import { HiOutlineCpuChip } from "react-icons/hi2";
-import { TbBrowser } from "react-icons/tb";
+import { TbBrowser, TbMessageChatbot, TbRobot } from "react-icons/tb";
 import useReveal from "@/app/hooks/useReveal";
 import TiltCard from "./TiltCard";
 
 const services = [
   {
-    icon: TbBrowser,
+    icon: TbRobot,
     index: "01",
+    title: "AI Automation",
+    shortDesc: "n8n and Playwright workflows for content, SEO and personalized outreach.",
+    fullDesc: "I build connected workflows for generating and publishing videos and images to YouTube, Facebook and Instagram, creating and publishing blog posts, automating SEO tasks, and researching websites to draft and send personalized emails. My automation toolkit includes n8n and Playwright.",
+    tags: ["n8n", "Playwright", "Content Publishing", "SEO Automation", "Email Workflows"],
+    tone: "brand",
+  },
+  {
+    icon: TbMessageChatbot,
+    index: "02",
+    title: "AI Chatbot Development",
+    shortDesc: "WhatsApp conversations and chatbots that answer questions about uploaded PDFs.",
+    fullDesc: "I build WhatsApp chatbot workflows and document-based assistants where users upload a PDF and ask questions about its topics and content. My broader conversational AI work includes YogiAI chat and WebRTC voice, backed by full-stack application development.",
+    tags: ["WhatsApp Chatbot", "PDF Q&A", "LLM APIs", "Prompt Engineering", "React"],
+    tone: "accent",
+  },
+  {
+    icon: TbBrowser,
+    index: "03",
     title: "Web Development",
     shortDesc: "Fast, responsive, SEO-ready web apps.",
     fullDesc:
@@ -20,7 +38,7 @@ const services = [
   },
   {
     icon: HiOutlineCpuChip,
-    index: "02",
+    index: "04",
     title: "AI & ML Solutions",
     shortDesc: "LLM features, automation and prediction models.",
     fullDesc:
@@ -30,7 +48,7 @@ const services = [
   },
   {
     icon: FiSmartphone,
-    index: "03",
+    index: "05",
     title: "Mobile Development",
     shortDesc: "Cross-platform mobile apps with React Native and Capacitor.",
     fullDesc:
@@ -40,7 +58,7 @@ const services = [
   },
   {
     icon: FiSearch,
-    index: "04",
+    index: "06",
     title: "SEO & Optimization",
     shortDesc: "Search-friendly websites built for visibility and performance.",
     fullDesc:
@@ -81,17 +99,25 @@ const Services = () => {
             <span className="eyebrow">
               <FiGrid aria-hidden="true" /> What I offer
             </span>
-            <h2 className="heading mt-4">My services</h2>
+            <h2 className="heading mt-4">Build smarter products.</h2>
           </div>
           <p className="lede max-w-xs text-sm">
-            From web and mobile to AI and SEO, I help teams <span className="hl">build and grow</span>.
+            Full-stack web development, AI automation, chatbots and SaaS products, from first idea to <span className="hl">production</span>.
           </p>
         </div>
 
         {/* Equal-height cards. h-full on both the scene and the card so the
             shorter one stretches to match its neighbour. */}
         <div className="mt-12 grid gap-5 sm:mt-16 lg:grid-cols-2">
-          {services.map((service) => {
+          {[services[2], services[0], services[1], {
+            icon: TbBrowser,
+            title: "SaaS Product Development",
+            shortDesc: "Complete SaaS products, from interface and APIs to deployment.",
+            fullDesc: "I build full-stack SaaS products with authentication, subscriptions, admin interfaces and AI integrations. My work includes TooleraAI, YogiAI.live and StudyMates.live, taking products from architecture to production deployment.",
+            tags: ["Next.js", "Authentication", "Subscriptions", "AI Integration", "Deployment"],
+            tone: "brand",
+          }, ...services.slice(3)].map((item, index) => {
+            const service = { ...item, index: String(index + 1).padStart(2, "0") };
             const Icon = service.icon;
             const tone = tones[service.tone];
 

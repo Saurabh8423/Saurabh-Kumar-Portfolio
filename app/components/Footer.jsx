@@ -44,7 +44,7 @@ export default function Footer() {
               Saurabh<span className="text-brand">.</span>
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-soft">
-              Full Stack &amp; AI Developer. Architecture to deployment.
+              Full-stack web development, AI automation, chatbots and SaaS products. From architecture to deployment.
             </p>
             <a
               href="mailto:saurabhch9369@gmail.com"
