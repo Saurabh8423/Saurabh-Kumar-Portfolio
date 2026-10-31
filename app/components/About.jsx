@@ -28,7 +28,7 @@ const pillars = [
 ];
 
 const facts = [
-  { label: "Role", value: "Founder & SEO" },
+  { label: "Role", value: "Founder & CEO" },
   { label: "Building", value: "TooleraAI" },
   { label: "Degree", value: "B.Tech CS & IT — 7.50 DGPA" },
   { label: "Based in", value: "Saket, New Delhi, India" },
