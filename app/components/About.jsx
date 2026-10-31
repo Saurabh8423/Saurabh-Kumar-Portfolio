@@ -92,7 +92,7 @@ const About = () => {
               Thoughtful interfaces. Reliable systems. Software people can <span className="hl">use every day.</span>
             </p>
             <p className="lede mt-6">
-              I’m Saurabh Kumar, founder of <a href="https://tooleraai.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-brand underline underline-offset-4">TooleraAI</a> and a Full Stack &amp; AI Developer at{" "}
+              I’m Saurabh Kumar, Founder &amp; CEO of <a href="https://tooleraai.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-brand underline underline-offset-4">TooleraAI</a> and a Full Stack &amp; AI Developer at{" "}
               <span className="font-semibold text-ink">
                 ForestGate Global Advisors
               </span>

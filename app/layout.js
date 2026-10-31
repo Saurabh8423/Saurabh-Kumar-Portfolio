@@ -26,7 +26,7 @@ export const metadata = {
     template: "%s | Saurabh Kumar",
   },
   description:
-    "Full Stack Web Developer | AI Automation, Chatbots & SaaS specialising in MERN, Next.js, TypeScript and LLM-powered products. Founder of TooleraAI and creator of YogiAI.live and StudyMates.live.",
+    "Full Stack Web Developer | AI Automation, Chatbots & SaaS specialising in MERN, Next.js, TypeScript and LLM-powered products. Founder & CEO of TooleraAI and creator of YogiAI.live and StudyMates.live.",
   keywords: [
     "Saurabh Kumar",
     "Full Stack Developer",

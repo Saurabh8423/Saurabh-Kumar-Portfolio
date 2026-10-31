@@ -26,7 +26,7 @@ export default function Experience() {
         </span>
         <h2 className="heading mt-4">A track record of shipping.</h2>
         <p className="lede mt-4">
-          Building products as a founder and engineer, from first idea to <span className="hl">production</span>.
+          Building products as Founder &amp; CEO of TooleraAI and as an engineer, from first idea to <span className="hl">production</span>.
         </p>
       </div>
 
