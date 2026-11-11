@@ -24,7 +24,7 @@ export default function Experience() {
         <span className="eyebrow">
           <FiBriefcase aria-hidden="true" /> Career
         </span>
-        <h2 className="heading mt-4">A track record of shipping.</h2>
+        <h2 className="heading mt-4">Real experience.<br /><span className="text-ink-faint">Products in the real world.</span></h2>
         <p className="lede mt-4">
           Building products as Founder &amp; CEO of TooleraAI and as an engineer, from first idea to <span className="hl">production</span>.
         </p>

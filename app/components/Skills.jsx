@@ -47,7 +47,7 @@ export default function Skills() {
           <span className="eyebrow">
             <FiLayers aria-hidden="true" /> Toolkit
           </span>
-          <h2 className="heading mt-4">The stack behind the work.</h2>
+          <h2 className="heading mt-4">The right tools.<br /><span className="text-ink-faint">Connected by experience.</span></h2>
         </div>
 
         <dl

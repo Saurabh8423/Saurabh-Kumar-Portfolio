@@ -1,6 +1,7 @@
 import { Geist, Ovo } from "next/font/google";
 import "./globals.css";
 import "./portfolio-theme.css";
+import "./digital-theme.css";
 import WhatsappFloating from "@/app/components/WhatsappFloating";
 
 const outfit = Geist({
@@ -59,12 +60,13 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#0e100f",
+  themeColor: "#080808",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark" style={{ colorScheme: "dark" }} suppressHydrationWarning>
+      <head><script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('portfolio-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d);document.documentElement.style.colorScheme=d?'dark':'light';document.querySelector('meta[name="theme-color"]')?.setAttribute('content',d?'#080808':'#fafafa')}catch(e){}})()` }} /></head>
       <body
         className={`${outfit.variable} ${ovo.variable} font-sans antialiased overflow-x-hidden`}
       >

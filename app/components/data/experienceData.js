@@ -25,6 +25,7 @@ export const experience = [
     /* Kept to one line each. The detail lives in the résumé. */
     points: [
       "Architected and launched YogiAI.live — AI Vedic astrology SaaS on Next.js, TypeScript, Firebase and LLM APIs.",
+      "Built the Yogi AI Android app with Flutter and connected it to the platform’s personalized astrology features.",
       "Built RBAC admin, Razorpay subscriptions, AI chat and WebRTC voice.",
       "Shipped StudyMates.live — live video rooms and chat on MERN, Socket.IO and Agora RTC.",
       "Runs on Docker, Nginx, PM2 and GitHub Actions CI/CD.",
@@ -36,6 +37,8 @@ export const experience = [
     stack: [
       "Next.js",
       "TypeScript",
+      "Flutter",
+      "Android",
       "Node.js",
       "Firebase",
       "Razorpay",

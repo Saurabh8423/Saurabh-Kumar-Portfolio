@@ -86,14 +86,17 @@ export const webProjects = [
   {
     title: "YogiAI.live",
     category: "ai",
-    subtitle: "AI-Powered Vedic Astrology SaaS",
+    subtitle: "AI Vedic Astrology · Web + Android App",
     image: "/projects/yogi.jpeg",
     featured: true,
     description:
-      "Custom Vedic engine, LLM chat, WebRTC voice and Razorpay subscriptions. No third-party astrology APIs.",
-    skills: ["Next", "TypeScript", "React", "Node", "Firebase"],
+      "Built a Vedic astrology platform with a custom chart engine, AI chat, voice features and subscriptions, plus a Flutter Android app for personalized chart readings.",
+    skills: ["Flutter", "Android", "Next.js", "TypeScript", "Firebase"],
     extraSkills: ["Razorpay", "LLM APIs", "WebRTC", "Docker"],
-    liveLinks: [{ label: "Live", url: "https://yogiai.live" }],
+    liveLinks: [
+      { label: "Web app", url: "https://yogiai.live" },
+      { label: "Google Play", url: "https://play.google.com/store/apps/details?id=live.yogiai.app" },
+    ],
     github: null,
   },
   {

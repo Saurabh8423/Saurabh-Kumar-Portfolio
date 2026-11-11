@@ -30,7 +30,7 @@ const pillars = [
 const facts = [
   { label: "Role", value: "Founder & CEO" },
   { label: "Building", value: "TooleraAI" },
-  { label: "Degree", value: "B.Tech CS & IT — 7.50 DGPA" },
+  { label: "Degree", value: "B.Tech CS & IT" },
   { label: "Based in", value: "Saket, New Delhi, India" },
 ];
 
@@ -43,7 +43,7 @@ const About = () => {
         <span className="eyebrow">
           <FiUser aria-hidden="true" /> Introduction
         </span>
-        <h2 className="heading mt-4">Full-stack foundations. Products that deliver.</h2>
+        <h2 className="heading mt-4">A builder’s mindset.<br /><span className="text-ink-faint">From interface to infrastructure.</span></h2>
       </div>
 
       <div className="mt-12 grid gap-10 lg:mt-14 lg:grid-cols-[minmax(0,20rem)_1fr] lg:gap-16">

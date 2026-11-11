@@ -73,6 +73,15 @@ const tones = {
   accent: { chip: "chip chip-accent", icon: "bg-accent-soft text-accent" },
 };
 
+function ServicePreview({ type, Icon }) {
+  if (type === "web") return <div className="service-preview service-preview-web"><div className="preview-browser"><div className="preview-top"><i /><i /><i /><span>acme.com</span><b>100</b></div><div className="preview-page"><div className="preview-copy"><i /><i /><i /><i /><b /></div><div className="preview-image" /><div className="preview-cards"><i /><i /><i /></div></div></div></div>;
+  if (type === "automation") return <div className="service-preview service-preview-flow"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M20 50H43M56 50C68 50 67 27 80 27M56 50C68 50 67 73 80 73" /><path d="M20 50H43M56 50C68 50 67 27 80 27M56 50C68 50 67 73 80 73" className="preview-pulse" /></svg><span className="preview-node preview-in"><Icon /></span><span className="preview-node preview-ai"><TbRobot /></span><span className="preview-node preview-db"><FiGrid /></span><span className="preview-node preview-mail"><TbMessageChatbot /></span><small className="preview-live"><i /> <em>reading inbox...</em></small></div>;
+  if (type === "chat") return <div className="service-preview service-preview-chat"><span className="chat-bubble">Can you summarize this document?</span><span className="chat-bubble answer">Here are the key points from your PDF.</span><small>source · uploaded document</small><i /><i /><i /></div>;
+  if (type === "saas") return <div className="service-preview service-preview-saas"><div><small>ACTIVE USERS</small><strong>12,480</strong></div><div className="preview-bars">{[42, 64, 50, 78, 58, 88, 70, 96].map((h, i) => <i key={i} style={{ height: `${h}%`, animationDelay: `${i * -0.25}s` }} />)}</div></div>;
+  if (type === "mobile") return <div className="service-preview service-preview-mobile"><div className="phone-mock"><i /><b /><span /><span /><span /><strong>Continue</strong></div><div className="phone-mock second"><i /><b /><span /><span /><strong>Get started</strong></div></div>;
+  return <div className="service-preview service-preview-api"><span>Webhook</span><span>API</span><span>Database</span><i /><i /><i /></div>;
+}
+
 const Services = () => {
   const scope = useReveal();
   const [activeService, setActiveService] = useState(null);
@@ -99,7 +108,7 @@ const Services = () => {
             <span className="eyebrow">
               <FiGrid aria-hidden="true" /> What I offer
             </span>
-            <h2 className="heading mt-4">Build smarter products.</h2>
+            <h2 className="heading services-heading mt-4"><span>Build. Automate.</span><span>Launch.</span><span className="text-ink-faint services-heading-subtitle">Bring your idea to life.</span></h2>
           </div>
           <p className="lede max-w-xs text-sm">
             Full-stack web development, AI automation, chatbots and SaaS products, from first idea to <span className="hl">production</span>.
@@ -108,7 +117,7 @@ const Services = () => {
 
         {/* Equal-height cards. h-full on both the scene and the card so the
             shorter one stretches to match its neighbour. */}
-        <div className="mt-12 grid gap-5 sm:mt-16 lg:grid-cols-2">
+        <div className="services-grid mt-12 grid gap-5 sm:mt-16 lg:grid-cols-3">
           {[services[2], services[0], services[1], {
             icon: TbBrowser,
             title: "SaaS Product Development",
@@ -127,8 +136,9 @@ const Services = () => {
                   as="article"
                   max={5}
                   sceneClassName="h-full"
-                  className="group flex h-full flex-col p-6 sm:p-8"
+                  className="service-card group flex h-full flex-col p-4 sm:p-5"
                 >
+                  <ServicePreview type={["web", "automation", "chat", "saas", "api", "mobile", "analytics"][index]} Icon={Icon} />
                   <div className="depth-1 flex items-start justify-between gap-4">
                     <span
                       className={`grid h-14 w-14 place-items-center rounded-xl border border-line text-2xl ${tone.icon}`}
@@ -140,16 +150,16 @@ const Services = () => {
                     </span>
                   </div>
 
-                  <h3 className="depth-1 mt-8 font-serif text-2xl font-semibold text-ink sm:text-3xl">
+                  <h3 className="depth-1 mt-5 text-lg font-semibold tracking-tight text-ink sm:text-xl">
                     {service.title}
                   </h3>
 
-                  <p className="mt-3 text-base leading-relaxed text-ink-soft">
+                  <p className="mt-3 text-sm leading-relaxed text-ink-soft">
                     {service.shortDesc}
                   </p>
 
                   {/* flex-1 pushes the CTA to the bottom of both cards alike */}
-                  <ul className="mt-6 flex flex-1 flex-wrap content-start gap-1.5">
+                  <ul className="mt-5 flex flex-wrap content-start gap-1.5">
                     {service.tags.map((tag) => (
                       <li key={tag} className={tone.chip}>
                         {tag}
@@ -160,7 +170,7 @@ const Services = () => {
                   <button
                     type="button"
                     onClick={() => setActiveService(service)}
-                    className="mt-8 inline-flex items-center gap-2 self-start border-b border-transparent pb-0.5 text-sm font-medium text-ink transition-colors hover:border-brand hover:text-brand"
+                    className="mt-5 inline-flex items-center gap-2 self-start border-b border-transparent pb-0.5 text-sm font-medium text-ink transition-colors hover:border-brand hover:text-brand"
                   >
                     Read more
                     <FiArrowRight

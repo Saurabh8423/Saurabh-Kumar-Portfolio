@@ -31,7 +31,7 @@ export default function MyWork() {
           <span className="eyebrow">
             <FiFolder aria-hidden="true" /> Portfolio
           </span>
-          <h2 className="heading mt-4">Web apps. Automation. AI. SaaS.</h2>
+          <h2 className="heading mt-4">Ideas made tangible.<br /><span className="text-ink-faint">Explore the work.</span></h2>
         </div>
         <p className="lede max-w-xs text-sm">
           Full-stack web applications, n8n and Playwright automations, conversational chatbots and SaaS products.
@@ -54,7 +54,20 @@ export default function MyWork() {
               role="tab"
               id={`tab-${id}`}
               aria-selected={isActive}
-              aria-controls={`panel-${id}`}
+              aria-controls="project-panel"
+              tabIndex={isActive ? 0 : -1}
+              onKeyDown={(event) => {
+                const current = tabs.findIndex((tab) => tab.id === id);
+                let next;
+                if (event.key === "ArrowRight") next = (current + 1) % tabs.length;
+                if (event.key === "ArrowLeft") next = (current - 1 + tabs.length) % tabs.length;
+                if (event.key === "Home") next = 0;
+                if (event.key === "End") next = tabs.length - 1;
+                if (next === undefined) return;
+                event.preventDefault();
+                setActive(tabs[next].id);
+                document.getElementById(`tab-${tabs[next].id}`)?.focus();
+              }}
               onClick={() => setActive(id)}
               className={`flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition-all duration-300 ${
                 isActive
@@ -79,7 +92,8 @@ export default function MyWork() {
       <div
         key={active}
         role="tabpanel"
-        id={`panel-${active}`}
+        id="project-panel"
+        tabIndex={0}
         aria-labelledby={`tab-${active}`}
         className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
       >
