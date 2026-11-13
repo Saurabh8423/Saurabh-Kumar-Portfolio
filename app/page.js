@@ -5,17 +5,22 @@ import Skills from "./components/Skills";
 import Experience from "./components/Experience";
 import Services from "./components/Services";
 import MyWork from "./components/MyWork";
+import Process from "./components/Process";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import Process from "./components/Process";
-import ScrollProgress from "./components/ScrollProgress";
 
 export default function Home() {
   return (
     <>
-      <ScrollProgress />
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[90] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:text-black"
+      >
+        Skip to content
+      </a>
       <Navbar />
-      <main id="main">
+      {/* overflow-x-clip: elements waiting to fly in from the sides never widen the page on phones (clip keeps sticky working). */}
+      <main id="main" className="overflow-x-clip">
         <Header />
         <About />
         <Skills />
@@ -23,14 +28,6 @@ export default function Home() {
         <Services />
         <MyWork />
         <Process />
-        <aside className="resume-banner mx-auto max-w-6xl">
-          <div>
-            <span className="eyebrow">Experience at a glance</span>
-            <h2 className="heading mt-4">From the first commit to production.</h2>
-            <p className="lede mt-3 max-w-2xl">Full-stack web development, AI automation, chatbot development and SaaS products. Explore my experience, education and technical skills in one place.</p>
-          </div>
-          <a href="/Saurabh-Kumar.pdf" download className="btn btn-primary shrink-0">Download my resume <span aria-hidden="true">↗</span></a>
-        </aside>
         <Contact />
       </main>
       <Footer />

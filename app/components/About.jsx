@@ -1,145 +1,121 @@
-"use client";
-
 import Image from "next/image";
-import { FiCode, FiCpu, FiServer, FiUser } from "react-icons/fi";
+import { LuBot, LuCodeXml, LuGauge, LuMessagesSquare, LuServerCog, LuSmartphone } from "react-icons/lu";
 import { assets } from "@/assets/assets";
-import useReveal from "@/app/hooks/useReveal";
-import TiltCard from "./TiltCard";
+import { Section, SectionHeading } from "./ui/Section";
+import { FlyIn, Reveal } from "./ui/Reveal";
+import { GlassIcon, Spotlight } from "./ui/Glass";
+import { Cycle } from "./ui/Motion";
 
 const pillars = [
-  {
-    icon: FiCode,
-    kicker: "01",
-    title: "Full Stack",
-    description: "Responsive interfaces and reliable APIs with Next.js, TypeScript and Node.js.",
-  },
-  {
-    icon: FiCpu,
-    kicker: "02",
-    title: "Chatbots & Automation",
-    description: "n8n and Playwright workflows, WhatsApp chatbots and PDF-based question answering.",
-  },
-  {
-    icon: FiServer,
-    kicker: "03",
-    title: "Production DevOps",
-    description: "Reliable deployments with Docker, Nginx, PM2 and automated CI/CD on Linux VPS.",
-  },
+  { icon: LuCodeXml, title: "Full-stack engineering", description: "Responsive interfaces and reliable APIs with Next.js, TypeScript and Node.js." },
+  { icon: LuBot, title: "AI automation", description: "n8n and Playwright workflows for content, SEO and personalised outreach." },
+  { icon: LuMessagesSquare, title: "Chatbots", description: "WhatsApp chatbots and assistants that answer from uploaded PDFs." },
+  { icon: LuSmartphone, title: "Mobile apps", description: "iOS and Android apps with Flutter, React Native and Capacitor." },
+  { icon: LuServerCog, title: "Production DevOps", description: "Docker, Nginx, PM2 and GitHub Actions CI/CD on Linux VPS." },
+  { icon: LuGauge, title: "SEO & performance", description: "Technical SEO, structured data and fast, accessible pages." },
+];
+
+// Each card arrives from its own side.
+const entrances = [
+  { x: -90, y: -40, rotate: -4 },
+  { x: 90, y: -40, rotate: 4 },
+  { x: -120, y: 0, rotate: -2 },
+  { x: 120, y: 0, rotate: 2 },
+  { x: -90, y: 50, rotate: 4 },
+  { x: 90, y: 50, rotate: -4 },
 ];
 
 const facts = [
-  { label: "Role", value: "Founder & CEO" },
-  { label: "Building", value: "TooleraAI" },
+  { label: "Role", value: "Founder & CEO, TooleraAI" },
+  { label: "Currently", value: "Full Stack & AI Developer" },
   { label: "Degree", value: "B.Tech CS & IT" },
-  { label: "Based in", value: "Saket, New Delhi, India" },
+  { label: "Based in", value: "Saket, New Delhi" },
 ];
 
-const About = () => {
-  const scope = useReveal();
-
+export default function About() {
   return (
-    <section id="about" ref={scope} className="section">
-      <div data-reveal className="max-w-2xl">
-        <span className="eyebrow">
-          <FiUser aria-hidden="true" /> Introduction
-        </span>
-        <h2 className="heading mt-4">A builder’s mindset.<br /><span className="text-ink-faint">From interface to infrastructure.</span></h2>
-      </div>
+    <Section id="about" labelledBy="about-title" className="border-y border-line bg-ink-900/40">
+      <div className="grid gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+        <div className="min-w-0">
+          <SectionHeading
+            id="about-title"
+            eyebrow="About me"
+            title="A builder’s mindset, from interface to infrastructure."
+            description={
+              <>
+                I’m Saurabh Kumar, Founder &amp; CEO of{" "}
+                <a href="https://tooleraai.com" target="_blank" rel="noopener noreferrer" className="text-fg underline decoration-line-strong underline-offset-4 hover:decoration-fg">
+                  TooleraAI
+                </a>{" "}
+                and a Full Stack &amp; AI Developer at ForestGate Global Advisors, where I architected and launched YogiAI.live
+                and StudyMates.live: two live SaaS platforms, built end to end.
+              </>
+            }
+          />
+          <Reveal delay={0.1}>
+            <p className="mt-4 max-w-2xl text-pretty leading-relaxed text-muted">
+              Two years of professional company experience and over five years of development: React and Next.js
+              interfaces, backend APIs, n8n and Playwright automations, WhatsApp and PDF chatbots, and SaaS products
+              shipped from architecture to deployment.
+            </p>
+          </Reveal>
 
-      <div className="mt-12 grid gap-10 lg:mt-14 lg:grid-cols-[minmax(0,20rem)_1fr] lg:gap-16">
-        {/* Portrait + facts */}
-        <div className="space-y-6">
-          <div data-reveal className="scene">
-            <div className="tilt relative overflow-hidden rounded-2xl border border-line">
+          <ul className="mt-12 grid gap-3 sm:grid-cols-2">
+            {pillars.map((p, i) => (
+              <FlyIn as="li" key={p.title} from={entrances[i]} delay={Math.floor(i / 2) * 0.12 + (i % 2) * 0.06}>
+                <Spotlight className="group relative h-full overflow-hidden rounded-2xl border border-line bg-ink-900 p-5 shadow-card transition-[border-color,transform] duration-500 hover:-translate-y-1 hover:border-white/20">
+                  <div className="relative flex items-start justify-between">
+                    <GlassIcon icon={p.icon} />
+                    <span className="font-mono text-[0.68rem] text-subtle transition-colors group-hover:text-fg">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <h3 className="relative mt-5 font-semibold tracking-tight text-fg">{p.title}</h3>
+                  <p className="relative mt-1.5 text-sm leading-relaxed text-muted">{p.description}</p>
+                  <span
+                    aria-hidden
+                    className="absolute inset-x-5 bottom-0 h-px origin-left scale-x-0 bg-gradient-to-r from-white/60 to-transparent transition-transform duration-700 ease-out group-hover:scale-x-100"
+                  />
+                </Spotlight>
+              </FlyIn>
+            ))}
+          </ul>
+        </div>
+
+        <Reveal className="relative min-w-0 lg:sticky lg:top-28 lg:self-start lg:pt-10" delay={0.1}>
+          <div aria-hidden className="absolute inset-0 -z-10 translate-y-6 scale-90 rounded-full bg-white/[0.07] blur-3xl" />
+          <Spotlight className="group relative overflow-hidden rounded-3xl border border-line-strong bg-ink-900/90 p-3 shadow-[var(--shadow-deep)]">
+            <div className="relative overflow-hidden rounded-2xl border border-line bg-ink-850">
               <Image
                 src={assets.user_image}
                 alt="Saurabh Kumar"
                 quality={90}
-                className="h-auto w-full object-cover"
-                sizes="(max-width: 1024px) 100vw, 20rem"
+                className="aspect-[4/4.2] h-auto w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                sizes="(max-width: 1024px) 100vw, 34rem"
               />
-              <span
-                aria-hidden="true"
-                className="tilt-glare absolute inset-0"
-              />
-            </div>
-          </div>
-
-          <dl
-            data-reveal
-            className="divide-y divide-line overflow-hidden rounded-xl border border-line"
-          >
-            {facts.map(({ label, value }) => (
-              <div
-                key={label}
-                className="flex items-baseline justify-between gap-4 px-4 py-3"
-              >
-                <dt className="text-[11px] font-semibold uppercase tracking-wider text-ink-faint">
-                  {label}
-                </dt>
-                <dd className="text-right text-sm font-medium text-ink">
-                  {value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-
-        {/* Copy + pillars */}
-        <div className="min-w-0">
-          <div data-reveal>
-            <p className="font-serif text-2xl leading-snug text-ink sm:text-3xl">
-              Thoughtful interfaces. Reliable systems. Software people can <span className="hl">use every day.</span>
-            </p>
-            <p className="lede mt-6">
-              I’m Saurabh Kumar, Founder &amp; CEO of <a href="https://tooleraai.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-brand underline underline-offset-4">TooleraAI</a> and a Full Stack &amp; AI Developer at{" "}
-              <span className="font-semibold text-ink">
-                ForestGate Global Advisors
+              <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent" />
+              <span className="glass absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs text-fg">
+                <span className="size-1.5 animate-pulse-soft rounded-full bg-ok" />
+                Available for new projects
               </span>
-              , where I architected and launched{" "}
-              <span className="hl">YogiAI.live</span> and{" "}
-              <span className="hl">StudyMates.live</span> — two live SaaS
-              platforms, built end to end. With TooleraAI, I’m bringing that same approach to fast, accessible online utilities for everyday work.
-            </p>
-            <p className="lede mt-4">
-              I bring 2 years of professional company experience and over 5 years of relevant development experience, building React and Next.js interfaces, backend APIs and complete web applications. I also create n8n and Playwright automations for content, SEO and outreach, develop WhatsApp and PDF chatbots, and ship SaaS products from architecture to deployment. I hold a B.Tech in Computer Science &amp; Information Technology from MJP Rohilkhand University.
-            </p>
-          </div>
-
-          {/* Pillars — numbered, 3D, staggered heights */}
-          <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            {pillars.map(({ icon: Icon, kicker, title, description }, i) => (
-              <div
-                key={title}
-                data-reveal
-                className={`h-full ${i === 1 ? "sm:mt-6" : ""}`}
-              >
-                <TiltCard
-                  sceneClassName="h-full"
-                  className="flex h-full flex-col p-5"
-                >
-                  <div className="depth-1 flex items-center justify-between">
-                    <span className="grid h-10 w-10 place-items-center rounded-lg border border-line bg-brand-soft text-lg text-brand">
-                      <Icon aria-hidden="true" />
-                    </span>
-                    <span className="font-serif text-2xl text-ink-faint/40">
-                      {kicker}
-                    </span>
+            </div>
+            <div className="relative px-3 pb-2 pt-5">
+              <p className="font-mono text-[0.65rem] uppercase tracking-wider text-subtle">Saurabh Kumar</p>
+              <p className="mt-1 text-xl font-semibold tracking-tight text-fg">
+                <Cycle items={["Full Stack Developer", "AI Automation Developer", "Chatbot Developer", "Mobile App Developer"]} interval={2200} />
+              </p>
+              <dl className="mt-5 grid grid-cols-2 gap-2">
+                {facts.map(({ label, value }) => (
+                  <div key={label} className="glass-soft rounded-xl px-3 py-2.5">
+                    <dt className="font-mono text-[0.6rem] uppercase tracking-wider text-subtle">{label}</dt>
+                    <dd className="mt-0.5 text-sm text-fg">{value}</dd>
                   </div>
-                  <h3 className="depth-1 mt-5 font-semibold text-ink">
-                    {title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-                    {description}
-                  </p>
-                </TiltCard>
-              </div>
-            ))}
-          </div>
-        </div>
+                ))}
+              </dl>
+            </div>
+          </Spotlight>
+        </Reveal>
       </div>
-    </section>
+    </Section>
   );
-};
-
-export default About;
+}

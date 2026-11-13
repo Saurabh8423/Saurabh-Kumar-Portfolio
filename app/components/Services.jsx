@@ -1,260 +1,227 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { FiArrowRight, FiGrid, FiSearch, FiSmartphone, FiX } from "react-icons/fi";
-import { HiOutlineCpuChip } from "react-icons/hi2";
-import { TbBrowser, TbMessageChatbot, TbRobot } from "react-icons/tb";
-import useReveal from "@/app/hooks/useReveal";
-import TiltCard from "./TiltCard";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import {
+  LuArrowRight,
+  LuBot,
+  LuBrainCircuit,
+  LuCodeXml,
+  LuLayoutDashboard,
+  LuMessagesSquare,
+  LuSearch,
+  LuSmartphone,
+  LuX,
+} from "react-icons/lu";
+import { Section, SectionHeading } from "./ui/Section";
+import { Stagger, StaggerItem } from "./ui/Reveal";
+import { GlassIcon, Spotlight } from "./ui/Glass";
+import { ButtonLink } from "./ui/Button";
+import { serviceVisuals } from "./visuals/ServiceVisuals";
 
-const services = [
+export const services = [
   {
-    icon: TbRobot,
-    index: "01",
-    title: "AI Automation",
-    shortDesc: "n8n and Playwright workflows for content, SEO and personalized outreach.",
-    fullDesc: "I build connected workflows for generating and publishing videos and images to YouTube, Facebook and Instagram, creating and publishing blog posts, automating SEO tasks, and researching websites to draft and send personalized emails. My automation toolkit includes n8n and Playwright.",
-    tags: ["n8n", "Playwright", "Content Publishing", "SEO Automation", "Email Workflows"],
-    tone: "brand",
-  },
-  {
-    icon: TbMessageChatbot,
-    index: "02",
-    title: "AI Chatbot Development",
-    shortDesc: "WhatsApp conversations and chatbots that answer questions about uploaded PDFs.",
-    fullDesc: "I build WhatsApp chatbot workflows and document-based assistants where users upload a PDF and ask questions about its topics and content. My broader conversational AI work includes YogiAI chat and WebRTC voice, backed by full-stack application development.",
-    tags: ["WhatsApp Chatbot", "PDF Q&A", "LLM APIs", "Prompt Engineering", "React"],
-    tone: "accent",
-  },
-  {
-    icon: TbBrowser,
-    index: "03",
+    icon: LuCodeXml,
     title: "Web Development",
-    shortDesc: "Fast, responsive, SEO-ready web apps.",
+    shortDesc: "Fast, responsive, SEO-ready web apps with clean, maintainable code.",
     fullDesc:
-      "I build scalable, high-performance web applications with React, Next.js and TypeScript. Clean UI, SEO, accessibility and maintainable modular code — backed by Node, Express or FastAPI APIs and deployed with Docker, Nginx and CI/CD.",
+      "I build scalable, high-performance web applications with React, Next.js and TypeScript. Clean UI, SEO, accessibility and maintainable modular code, backed by Node, Express or FastAPI APIs and deployed with Docker, Nginx and CI/CD.",
     tags: ["Next.js", "React", "TypeScript", "Node.js", "REST APIs"],
-    tone: "brand",
+    visual: "website",
   },
   {
-    icon: HiOutlineCpuChip,
-    index: "04",
+    icon: LuBot,
+    title: "AI Automation",
+    shortDesc: "n8n and Playwright workflows for content, SEO and personalised outreach.",
+    fullDesc:
+      "I build connected workflows that generate and publish videos and images to YouTube, Facebook and Instagram, create and publish blog posts, automate SEO tasks, and research websites to draft and send personalised emails. My automation toolkit includes n8n and Playwright.",
+    tags: ["n8n", "Playwright", "Content Publishing", "SEO Automation", "Email Workflows"],
+    visual: "agents",
+  },
+  {
+    icon: LuMessagesSquare,
+    title: "AI Chatbot Development",
+    shortDesc: "WhatsApp chatbots and assistants that answer questions about uploaded PDFs.",
+    fullDesc:
+      "I build WhatsApp chatbot workflows and document-based assistants where users upload a PDF and ask questions about its content. My broader conversational AI work includes YogiAI chat and WebRTC voice, backed by full-stack application development.",
+    tags: ["WhatsApp Chatbot", "PDF Q&A", "LLM APIs", "Prompt Engineering"],
+    visual: "chat",
+  },
+  {
+    icon: LuLayoutDashboard,
+    title: "SaaS Product Development",
+    shortDesc: "Complete SaaS products, from interface and APIs to billing and deployment.",
+    fullDesc:
+      "I build full-stack SaaS products with authentication, subscriptions, admin interfaces and AI integrations. My work includes TooleraAI, YogiAI.live and StudyMates.live, taken from architecture to production deployment.",
+    tags: ["Next.js", "Authentication", "Subscriptions", "AI Integration", "Deployment"],
+    visual: "saas",
+  },
+  {
+    icon: LuBrainCircuit,
     title: "AI & ML Solutions",
-    shortDesc: "LLM features, automation and prediction models.",
+    shortDesc: "LLM features, OCR and prediction models served through FastAPI.",
     fullDesc:
-      "I integrate OpenAI and other LLM APIs into real products — AI chat, prompt-engineered workflows, OCR and AI automation — plus classic ML prediction models and analytics dashboards served through FastAPI for production deployment.",
+      "I integrate OpenAI and other LLM APIs into real products (AI chat, prompt-engineered workflows, OCR and automation) plus classic ML prediction models and analytics dashboards served through FastAPI for production deployment.",
     tags: ["OpenAI APIs", "LLM Integration", "Scikit-learn", "FastAPI", "OCR"],
-    tone: "accent",
+    visual: "ml",
   },
   {
-    icon: FiSmartphone,
-    index: "05",
+    icon: LuSmartphone,
     title: "Mobile Development",
-    shortDesc: "Cross-platform mobile apps with React Native and Capacitor.",
+    shortDesc: "Cross-platform iOS and Android apps with Flutter, React Native and Capacitor.",
     fullDesc:
-      "I build Android and iOS experiences with React Native and bring web applications to mobile with Capacitor. From responsive screens and native device integrations to authentication and backend APIs, I focus on consistent experiences across devices and maintainable application code.",
-    tags: ["React Native", "Capacitor", "Android", "iOS", "API Integration"],
-    tone: "accent",
+      "I build Android and iOS experiences with Flutter and React Native, and bring web applications to mobile with Capacitor. From responsive screens and native device integrations to authentication and backend APIs, I focus on consistent experiences across devices.",
+    tags: ["Flutter", "React Native", "Capacitor", "Android", "iOS"],
+    visual: "mobile",
   },
   {
-    icon: FiSearch,
-    index: "06",
+    icon: LuSearch,
     title: "SEO & Optimization",
     shortDesc: "Search-friendly websites built for visibility and performance.",
     fullDesc:
-      "I improve how websites are discovered, crawled and understood by search engines through technical SEO, structured data, metadata, XML sitemaps and internal linking. I also optimize page performance and use analytics to identify opportunities for a better user experience and organic growth.",
-    tags: ["Technical SEO", "Structured Data", "Core Web Vitals", "Sitemaps", "Analytics"],
-    tone: "brand",
+      "I improve how websites are discovered, crawled and understood by search engines through technical SEO, structured data, metadata, XML sitemaps and internal linking, and I optimise page performance using analytics to find opportunities for organic growth.",
+    tags: ["Technical SEO", "Structured Data", "Core Web Vitals", "Sitemaps"],
+    visual: "seo",
   },
 ];
 
-const tones = {
-  brand: { chip: "chip chip-brand", icon: "bg-brand-soft text-brand" },
-  accent: { chip: "chip chip-accent", icon: "bg-accent-soft text-accent" },
-};
+// Bento on large screens: 2+1 / 1+2 / 1+1+1.
+const wide = new Set([0, 3]);
 
-function ServicePreview({ type, Icon }) {
-  if (type === "web") return <div className="service-preview service-preview-web"><div className="preview-browser"><div className="preview-top"><i /><i /><i /><span>acme.com</span><b>100</b></div><div className="preview-page"><div className="preview-copy"><i /><i /><i /><i /><b /></div><div className="preview-image" /><div className="preview-cards"><i /><i /><i /></div></div></div></div>;
-  if (type === "automation") return <div className="service-preview service-preview-flow"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M20 50H43M56 50C68 50 67 27 80 27M56 50C68 50 67 73 80 73" /><path d="M20 50H43M56 50C68 50 67 27 80 27M56 50C68 50 67 73 80 73" className="preview-pulse" /></svg><span className="preview-node preview-in"><Icon /></span><span className="preview-node preview-ai"><TbRobot /></span><span className="preview-node preview-db"><FiGrid /></span><span className="preview-node preview-mail"><TbMessageChatbot /></span><small className="preview-live"><i /> <em>reading inbox...</em></small></div>;
-  if (type === "chat") return <div className="service-preview service-preview-chat"><span className="chat-bubble">Can you summarize this document?</span><span className="chat-bubble answer">Here are the key points from your PDF.</span><small>source · uploaded document</small><i /><i /><i /></div>;
-  if (type === "saas") return <div className="service-preview service-preview-saas"><div><small>ACTIVE USERS</small><strong>12,480</strong></div><div className="preview-bars">{[42, 64, 50, 78, 58, 88, 70, 96].map((h, i) => <i key={i} style={{ height: `${h}%`, animationDelay: `${i * -0.25}s` }} />)}</div></div>;
-  if (type === "mobile") return <div className="service-preview service-preview-mobile"><div className="phone-mock"><i /><b /><span /><span /><span /><strong>Continue</strong></div><div className="phone-mock second"><i /><b /><span /><span /><strong>Get started</strong></div></div>;
-  return <div className="service-preview service-preview-api"><span>Webhook</span><span>API</span><span>Database</span><i /><i /><i /></div>;
+function ServiceCard({ service, index, onOpen }) {
+  const Visual = serviceVisuals[service.visual];
+  return (
+    <Spotlight className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-ink-900 p-3 shadow-card transition-[border-color,transform] duration-500 ease-out hover:-translate-y-1.5 hover:border-white/20">
+      <div aria-hidden className="hairline-top absolute inset-x-6 top-0 h-px opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="relative">
+        <Visual />
+      </div>
+      <article className="relative flex flex-1 flex-col p-3 pt-5 sm:p-4 sm:pt-6">
+        <div className="flex items-center gap-3">
+          <GlassIcon icon={service.icon} size="sm" />
+          <h3 className="text-lg font-semibold tracking-tight text-fg">{service.title}</h3>
+          <span className="ml-auto font-mono text-xs text-subtle transition-colors duration-300 group-hover:text-fg">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+        </div>
+        <p className="mt-3 text-sm leading-relaxed text-muted">{service.shortDesc}</p>
+        <ul className="mt-auto flex flex-wrap gap-1.5 pt-5">
+          {service.tags.map((t) => (
+            <li
+              key={t}
+              className="rounded-full border border-line px-2.5 py-1 text-[0.72rem] text-muted transition-colors duration-300 group-hover:border-white/15 group-hover:text-fg/80"
+            >
+              {t}
+            </li>
+          ))}
+        </ul>
+        <button
+          type="button"
+          onClick={() => onOpen(index)}
+          className="mt-5 inline-flex items-center gap-1.5 self-start text-sm font-medium text-fg/80 transition-colors hover:text-fg"
+          aria-haspopup="dialog"
+        >
+          Read more
+          <LuArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+        </button>
+      </article>
+    </Spotlight>
+  );
 }
 
-const Services = () => {
-  const scope = useReveal();
-  const [activeService, setActiveService] = useState(null);
+function ServiceDialog({ index, onClose }) {
+  const service = services[index];
+  const closeRef = useRef(null);
 
   useEffect(() => {
-    if (!activeService) return;
-    const onKey = (e) => e.key === "Escape" && setActiveService(null);
+    const onKey = (e) => e.key === "Escape" && onClose();
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
+    closeRef.current?.focus();
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
     };
-  }, [activeService]);
+  }, [onClose]);
+
+  const Visual = serviceVisuals[service.visual];
+  return (
+    <motion.div
+      className="fixed inset-0 z-[80] grid place-items-center bg-black/60 p-4 backdrop-blur-md"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="service-dialog-title"
+        onClick={(e) => e.stopPropagation()}
+        className="relative max-h-[90dvh] w-full max-w-xl overflow-y-auto rounded-3xl border border-line-strong bg-ink-900 p-3 shadow-[var(--shadow-deep)]"
+        initial={{ opacity: 0, y: 24, scale: 0.96, filter: "blur(6px)" }}
+        animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+        exit={{ opacity: 0, y: 16, scale: 0.97, filter: "blur(4px)" }}
+        transition={{ duration: 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
+      >
+        <div aria-hidden className="hairline-top absolute inset-x-8 top-0 h-px" />
+        <Visual />
+        <div className="p-3 pt-6 sm:p-5">
+          <div className="flex items-center gap-3">
+            <GlassIcon icon={service.icon} />
+            <div>
+              <p className="font-mono text-[0.65rem] uppercase tracking-wider text-subtle">Service {String(index + 1).padStart(2, "0")}</p>
+              <h3 id="service-dialog-title" className="text-xl font-semibold tracking-tight text-fg">
+                {service.title}
+              </h3>
+            </div>
+          </div>
+          <p className="mt-5 text-sm leading-relaxed text-muted sm:text-base">{service.fullDesc}</p>
+          <ul className="mt-5 flex flex-wrap gap-1.5">
+            {service.tags.map((t) => (
+              <li key={t} className="rounded-full border border-line px-2.5 py-1 text-[0.72rem] text-fg/80">
+                {t}
+              </li>
+            ))}
+          </ul>
+          <ButtonLink href="#contact" size="lg" arrow onClick={onClose} className="mt-7 w-full">
+            Start a project
+          </ButtonLink>
+        </div>
+        <button
+          ref={closeRef}
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="glass absolute right-5 top-5 grid size-9 place-items-center rounded-full text-fg transition-transform hover:scale-105 active:scale-95"
+        >
+          <LuX className="size-4" aria-hidden />
+        </button>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+export default function Services() {
+  const [open, setOpen] = useState(null);
+  const close = useCallback(() => setOpen(null), []);
 
   return (
-    <>
-      <section id="services" ref={scope} className="section">
-        <div
-          data-reveal
-          className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
-        >
-          <div className="max-w-xl">
-            <span className="eyebrow">
-              <FiGrid aria-hidden="true" /> What I offer
-            </span>
-            <h2 className="heading services-heading mt-4"><span>Build. Automate.</span><span>Launch.</span><span className="text-ink-faint services-heading-subtitle">Bring your idea to life.</span></h2>
-          </div>
-          <p className="lede max-w-xs text-sm">
-            Full-stack web development, AI automation, chatbots and SaaS products, from first idea to <span className="hl">production</span>.
-          </p>
-        </div>
-
-        {/* Equal-height cards. h-full on both the scene and the card so the
-            shorter one stretches to match its neighbour. */}
-        <div className="services-grid mt-12 grid gap-5 sm:mt-16 lg:grid-cols-3">
-          {[services[2], services[0], services[1], {
-            icon: TbBrowser,
-            title: "SaaS Product Development",
-            shortDesc: "Complete SaaS products, from interface and APIs to deployment.",
-            fullDesc: "I build full-stack SaaS products with authentication, subscriptions, admin interfaces and AI integrations. My work includes TooleraAI, YogiAI.live and StudyMates.live, taking products from architecture to production deployment.",
-            tags: ["Next.js", "Authentication", "Subscriptions", "AI Integration", "Deployment"],
-            tone: "brand",
-          }, ...services.slice(3)].map((item, index) => {
-            const service = { ...item, index: String(index + 1).padStart(2, "0") };
-            const Icon = service.icon;
-            const tone = tones[service.tone];
-
-            return (
-              <div key={service.title} data-reveal className="h-full">
-                <TiltCard
-                  as="article"
-                  max={5}
-                  sceneClassName="h-full"
-                  className="service-card group flex h-full flex-col p-4 sm:p-5"
-                >
-                  <ServicePreview type={["web", "automation", "chat", "saas", "api", "mobile", "analytics"][index]} Icon={Icon} />
-                  <div className="depth-1 flex items-start justify-between gap-4">
-                    <span
-                      className={`grid h-14 w-14 place-items-center rounded-xl border border-line text-2xl ${tone.icon}`}
-                    >
-                      <Icon aria-hidden="true" />
-                    </span>
-                    <span className="font-serif text-3xl leading-none text-ink-faint/35">
-                      {service.index}
-                    </span>
-                  </div>
-
-                  <h3 className="depth-1 mt-5 text-lg font-semibold tracking-tight text-ink sm:text-xl">
-                    {service.title}
-                  </h3>
-
-                  <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-                    {service.shortDesc}
-                  </p>
-
-                  {/* flex-1 pushes the CTA to the bottom of both cards alike */}
-                  <ul className="mt-5 flex flex-wrap content-start gap-1.5">
-                    {service.tags.map((tag) => (
-                      <li key={tag} className={tone.chip}>
-                        {tag}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <button
-                    type="button"
-                    onClick={() => setActiveService(service)}
-                    className="mt-5 inline-flex items-center gap-2 self-start border-b border-transparent pb-0.5 text-sm font-medium text-ink transition-colors hover:border-brand hover:text-brand"
-                  >
-                    Read more
-                    <FiArrowRight
-                      aria-hidden="true"
-                      className="transition-transform duration-300 group-hover:translate-x-1"
-                    />
-                  </button>
-                </TiltCard>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Modal */}
-      {activeService && (
-        <div
-          onClick={() => setActiveService(null)}
-          className="fixed inset-0 z-70 grid place-items-center bg-black/55 p-4 backdrop-blur-sm"
-        >
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="service-modal-title"
-            onClick={(e) => e.stopPropagation()}
-            className="animate-scaleIn relative max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-2xl border border-line bg-page"
-          >
-            <div className="flex items-start gap-4 border-b border-line bg-page-soft/70 p-6 pr-16 sm:p-7 sm:pr-16">
-              <span
-                className={`grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-line text-2xl ${
-                  tones[activeService.tone].icon
-                }`}
-              >
-                <activeService.icon aria-hidden="true" />
-              </span>
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-faint">
-                  Service {activeService.index}
-                </p>
-                <h3
-                  id="service-modal-title"
-                  className="mt-1 font-serif text-xl font-semibold text-ink sm:text-2xl"
-                >
-                  {activeService.title}
-                </h3>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setActiveService(null)}
-              aria-label="Close"
-              autoFocus
-              className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-lg border border-line bg-page text-ink-soft transition-colors hover:border-brand hover:text-brand"
-            >
-              <FiX />
-            </button>
-
-            <div className="p-6 sm:p-7">
-              <p className="text-sm leading-relaxed text-ink-soft sm:text-base">
-                {activeService.fullDesc}
-              </p>
-
-              <ul className="mt-6 flex flex-wrap gap-1.5">
-                {activeService.tags.map((tag) => (
-                  <li key={tag} className={tones[activeService.tone].chip}>
-                    {tag}
-                  </li>
-                ))}
-              </ul>
-
-              <a
-                href="#contact"
-                onClick={() => setActiveService(null)}
-                className="btn btn-primary mt-8 w-full"
-              >
-                Start a project <FiArrowRight aria-hidden="true" />
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+    <Section id="services" labelledBy="services-title" className="border-y border-line bg-ink-900/40">
+      <SectionHeading
+        id="services-title"
+        eyebrow="Services"
+        title="Everything you need to build, automate and launch."
+        description="One developer for interface, backend and AI, so your product stays consistent from the first pixel to the last API call."
+      />
+      <Stagger as="ul" stagger={0.14} className="mt-14 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-5">
+        {services.map((service, i) => (
+          <StaggerItem as="li" key={service.title} className={`${wide.has(i) ? "lg:col-span-2" : ""} ${i === services.length - 1 ? "sm:col-span-2 lg:col-span-1" : ""}`}>
+            <ServiceCard service={service} index={i} onOpen={setOpen} />
+          </StaggerItem>
+        ))}
+      </Stagger>
+      <AnimatePresence>{open !== null && <ServiceDialog key="dialog" index={open} onClose={close} />}</AnimatePresence>
+    </Section>
   );
-};
-
-export default Services;
+}

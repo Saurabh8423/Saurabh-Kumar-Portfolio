@@ -1,31 +1,19 @@
-import { Geist, Ovo } from "next/font/google";
+import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import "./portfolio-theme.css";
-import "./digital-theme.css";
 import WhatsappFloating from "@/app/components/WhatsappFloating";
+import { MotionProvider, ScrollProgress } from "@/app/components/ui/Motion";
+import { THEME_COLORS, themeInitScript } from "@/app/components/ui/ThemeToggle";
 
-const outfit = Geist({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
-  variable: "--font-outfit",
-  display: "swap",
-});
-
-const ovo = Ovo({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-ovo",
-  display: "swap",
-});
+// Apple devices render SF Pro via the system stack in globals.css; Inter is the cross-platform fallback.
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
 
 const siteUrl = "https://saurabhportfolio45.netlify.app";
+const title = "Saurabh Kumar — Full Stack Web Developer | AI Automation, Chatbots & SaaS";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
-  title: {
-    default: "Saurabh Kumar — Full Stack Web Developer | AI Automation, Chatbots & SaaS",
-    template: "%s | Saurabh Kumar",
-  },
+  title: { default: title, template: "%s | Saurabh Kumar" },
   description:
     "Full Stack Web Developer | AI Automation, Chatbots & SaaS specialising in MERN, Next.js, TypeScript and LLM-powered products. Founder & CEO of TooleraAI and creator of YogiAI.live and StudyMates.live.",
   keywords: [
@@ -46,38 +34,37 @@ export const metadata = {
     locale: "en_IN",
     url: siteUrl,
     siteName: "Saurabh Kumar",
-    title: "Saurabh Kumar — Full Stack Web Developer | AI Automation, Chatbots & SaaS",
+    title,
     description:
       "Full Stack Web Developer | AI Automation, Chatbots & SaaS building scalable web and AI products with Next.js, MERN, TypeScript and LLM APIs.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Saurabh Kumar — Full Stack Web Developer | AI Automation, Chatbots & SaaS",
-    description:
-      "Full Stack Web Developer | AI Automation, Chatbots & SaaS building scalable web and AI products.",
+    title,
+    description: "Full Stack Web Developer | AI Automation, Chatbots & SaaS building scalable web and AI products.",
   },
   robots: { index: true, follow: true },
 };
 
 export const viewport = {
-  themeColor: "#080808",
+  themeColor: THEME_COLORS.dark,
+  colorScheme: "dark light",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark" style={{ colorScheme: "dark" }} suppressHydrationWarning>
-      <head><script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('portfolio-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d);document.documentElement.style.colorScheme=d?'dark':'light';document.querySelector('meta[name="theme-color"]')?.setAttribute('content',d?'#080808':'#fafafa')}catch(e){}})()` }} /></head>
-      <body
-        className={`${outfit.variable} ${ovo.variable} font-sans antialiased overflow-x-hidden`}
-      >
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-brand focus:px-5 focus:py-2 focus:text-white"
-        >
-          Skip to content
-        </a>
-        {children}
-        <WhatsappFloating />
+    // The init script sets data-theme before hydration, so the attribute legitimately differs from the server.
+    <html lang="en" data-theme="dark" suppressHydrationWarning className={`${inter.variable} ${geistMono.variable} antialiased`}>
+      <head>
+        {/* Plain inline script so it runs before first paint and the page never flashes the wrong theme. */}
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="min-h-dvh font-sans">
+        <MotionProvider>
+          <ScrollProgress />
+          {children}
+          <WhatsappFloating />
+        </MotionProvider>
       </body>
     </html>
   );
